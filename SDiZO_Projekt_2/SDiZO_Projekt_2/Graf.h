@@ -2,24 +2,37 @@
 #define Klasa_Grafu_Header
 
 #include <string>
+#include <vector>
+#include <list>
 
 class Graf
 {
 private:
-	int **Macierz,**Wagi;
-	int _iloscW;
-	bool skierowany, prosty, cykle;
-	int typ;
-	void dodajKrawedz(int v1,int v2);
-	void dodajWage(int v1, int v2, int waga);
+	// ogolne dane
+	unsigned V,E; // ilosc wierzcho³ków w zdefiniowanym grafie i ilosc krawedzi
+	bool skierowany, prosty, cykle; // podstawowe dane o grafie
+	bool macierzowa, listy_sasiadow;
+	// rep macierzowa
+	int **Macierz,**Wagi; // reprezentacja macierzowa
+	void wyswietlMacierze(std::string info);
+	void dodajKrawedz(unsigned v1,unsigned v2);
+	void dodajWage(unsigned v1, unsigned v2, unsigned waga);
+	// rep listowa
+	struct Vertex{
+		unsigned index; // index wierzcholka
+		unsigned waga; // waga krawedzi do niego prowadzacej
+	};// struktura elementu listy (wierzcholek oraz waga krawedzi prowadzacej do niego)
+	void dodajVertex(unsigned v1, unsigned index, unsigned waga);
+	void wyswietlListe(std::string info);
+	std::list<Vertex> *TAB; // tablica list z wierzcholkami
 public:
 	// funkcje dla grafu w postaci macierzy
-	void dodajPolaczenie(int v1, int v2, int waga);
-	void wyswietlMacierze(std::string info);
+	void dodajPolaczenie(unsigned v1, unsigned v2, unsigned waga);
 	bool sprawdzCykle();
+	void wyswietlGraf();
 	std::string toString();
 
-	// funkcje dla frafu w postaci listy
+	// funkcje dla grafu w postaci listy
 
 
 	// pozostale funkcje wspolne
