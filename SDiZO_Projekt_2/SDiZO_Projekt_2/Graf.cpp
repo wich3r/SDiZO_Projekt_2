@@ -22,8 +22,13 @@ void Graf::dodajVertex(unsigned v1,unsigned index, unsigned waga){
 		Vertex *nowy = new Vertex;
 		nowy->index=index;
 		nowy->waga=waga;
-		TAB[(v1 - 1)].push_back(*nowy);
-		if(prosty && v1 != index){ TAB[(index-1)].push_back(*nowy);}
+		TAB[(v1)].push_back(*nowy);
+		if(prosty && v1 != index){
+			Vertex *drugi = new Vertex;
+			drugi->index = v1;
+			drugi->waga = waga;
+			TAB[(index)].push_back(*drugi);
+		}
 	}
 };
 void Graf::wyswietlMacierze(std::string info){
@@ -56,7 +61,6 @@ void Graf::wyswietlGraf(){
 		wyswietlMacierze(toString());}
 	if(listy_sasiadow){
 		wyswietlListe(toString());}
-
 }
 std::string Graf::toString(){
 	std::string Informacje;
@@ -72,32 +76,34 @@ std::string Graf::toString(){
 };
 bool inline Graf::saCykle(){return cykle;}
 bool inline Graf::czySkierowany(){return skierowany;}
-Graf::Graf(int typ, int _ilosc, std::string j){
+Graf::Graf(int typ, unsigned _ilosc, std::string j){
 	V =_ilosc;
 	E = 0;
 	if(typ==1){// rep macierzowa
 		macierzowa = true;
 		listy_sasiadow = false;
-		if(j=="tak"){ prosty=true; skierowany=false;}else skierowany=true;prosty=false;
-		Macierz = new int *[V];//wiersze
+		if(j=="tak"){ prosty=true; skierowany=false;}else{skierowany=true;prosty=false;}
+		Macierz = new unsigned *[V];//wiersze
 		for(int i=0;i<=(V-1);i++){
-			Macierz[i] = new int [V];//kolumny
+			Macierz[i] = new unsigned [V];//kolumny
 		}// macierz sasiadow
-		Wagi = new int *[V];//wiersze
+		Wagi = new unsigned *[V];//wiersze
 		for(int i=0;i<=(V-1);i++){
-			Wagi[i] = new int [V];//kolumny
+			Wagi[i] = new unsigned [V];//kolumny
 		}// macierz wag krawedzi
-		for(int i = 0; i < V; i++){// zerujemy macierz sasiadztwa
-			for(int j = 0; j < V; j++) Macierz[i][j] = 0;}
-		for(int i = 0; i < V; i++){// zerujemy macierz wag
-			for(int j = 0; j < V; j++) Wagi[i][j] = 0;}
+		for(unsigned i = 0; i < V; i++){// zerujemy macierz sasiadztwa
+			for(unsigned j = 0; j < V; j++) Macierz[i][j] = 0;}
+		for(unsigned i = 0; i < V; i++){// zerujemy macierz wag
+			for(unsigned j = 0; j < V; j++) Wagi[i][j] = 0;}
+		std::cout << "Utworzono graf w postaci macierzowej.";
 	}
 
 	else{// rep listowa
-		if(j=="tak"){ prosty=true; skierowany=false;}else skierowany=true;prosty=false;
+		if(j=="tak"){ prosty=true; skierowany=false;}else{skierowany=true;prosty=false;}
 		TAB = new std::list<Vertex>[_ilosc];
 		macierzowa = false;
 		listy_sasiadow = true;
+		std::cout << "Utworzono graf w postaci listowej";
 	}
 }
 Graf::~Graf(void){

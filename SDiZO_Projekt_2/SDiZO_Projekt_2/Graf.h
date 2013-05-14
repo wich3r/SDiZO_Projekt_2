@@ -13,7 +13,7 @@ private:
 	bool skierowany, prosty, cykle; // podstawowe dane o grafie
 	bool macierzowa, listy_sasiadow;
 	// rep macierzowa
-	int **Macierz,**Wagi; // reprezentacja macierzowa
+	unsigned **Macierz,**Wagi; // reprezentacja macierzowa
 	void wyswietlMacierze(std::string info);
 	void dodajKrawedz(unsigned v1,unsigned v2);
 	void dodajWage(unsigned v1, unsigned v2, unsigned waga);
@@ -38,7 +38,7 @@ public:
 	// pozostale funkcje wspolne
 	inline bool czySkierowany();
 	inline bool saCykle();
-	Graf(int typ, int _ilosc, std::string j);
+	Graf(int typ, unsigned _ilosc, std::string j);
 	~Graf(void);
 };
 #endif
